@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__pvfutility__get_file_content"
+    ]
+  }
+}
