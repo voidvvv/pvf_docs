@@ -1,0 +1,109 @@
+// 此文件包含nut系统中许多内置的系统函数，这种函数的功能就是会被系统自动调用，我们可以实现自己的逻辑然后系统就帮我们执行了
+
+// 如果我们当前nut文件是作为appendage加到别的obj上后，当前文件中的这个方法会执行，这个方法中我们可以做一些appendage初始化操作，主要是将我们自己的方法绑定在系统内置的appendage方法中。
+// 在这个例子中，我们把自己定义的proc_appendage_swordman_comminterrupt方法映射到了系统内置的proc中。
+function sq_AddFunctionName(appendage)
+{
+	appendage.sq_AddFunctionName("proc", "proc_appendage_swordman_comminterrupt")
+}
+
+// 还有很多内置的钩子函数：
+appendage.sq_AddFunctionName("onStartMap", "onStartMap_appendage_自定义函数名")
+appendage.sq_AddFunctionName("isEnd", "isEnd_appendage_自定义函数名")
+appendage.sq_AddFunctionName("onVaildTimeEnd", "onVaildTimeEnd_appendage_自定义函数名")
+appendage.sq_AddFunctionName("proc", "proc_appendage_自定义函数名")
+appendage.sq_AddFunctionName("onDamageParent", "onDamageParent_appendage_自定义函数名")
+appendage.sq_AddFunctionName("onAttackParent", "onAttackParent_appendage_自定义函数名")
+appendage.sq_AddFunctionName("onSetHp", "onSetHp_appendage_自定义函数名")
+appendage.sq_AddFunctionName("getImmuneTypeDamageRate", "getImmuneTypeDamageRate_appendage_自定义函数名")
+appendage.sq_AddFunctionName("onSourceKeyFrameFlag", "onSourceKeyFrameFlag_appendage_自定义函数名");
+appendage.sq_AddFunctionName("onDestroyObject", "onDestroyObject_appendage_自定义函数名")
+appendage.sq_AddFunctionName("isDrawAppend", "isDrawAppend_appendage_自定义函数名")
+appendage.sq_AddFunctionName("onChangeState", "onChangeState_自定义函数名");
+appendage.sq_AddFunctionName("onApplyHpDamage", "onApplyHpDamage_appendage_自定义函数名")
+appendage.sq_AddFunctionName("prepareDraw", "prepareDraw_appendage_自定义函数名")
+appendage.sq_AddFunctionName("onEnd", "onEnd_appendage_自定义函数名")
+
+
+
+// 处理被动技能。方法名称 ·_·的后面跟着的是职业名称
+function ProcPassiveSkill_Swordman(obj, skill_index, skill_level){};
+
+
+//procAppend 各职业自己合并 没有自己新增 下面是列子
+function procAppend_Swordman(obj)
+{
+	procAppend_SetEquipmentEfficeMain(obj);
+}
+
+//useSkill_after 各职业自己合并 没有自己新增 下面是列子
+function useSkill_after_Swordman(obj, skillIndex, consumeMp, consumeItem, oldSkillMpRate)
+{
+	if(!obj) return false;
+	setEquipmentUseSkillWhenEfficeMain(obj, skillIndex);
+	return true;
+}
+
+
+//setActiveStatus 各职业自己合并 没有自己新增 下面是列子
+function setActiveStatus_ATSwordman(obj, activeStatus, power)
+{
+	if(!obj) return 0;
+	if(activeStatus == 13 && sq_IsMyCharacter(obj))
+	{
+		setCheckConsumables(obj, activeStatus, power);
+		return 0;
+	}
+	return 1;
+}
+
+
+//setState 各职业自己合并 没有自己新增 下面是列子
+function setState_Swordman(obj, state, datas, isResetTimer)
+{
+	if(!obj) return;
+	sq_GetStateWithinEquipmentRequiredData(obj, state, datas);
+	return 0;
+}
+
+//useSkill_before 各职业自己合并 没有自己新增 下面是列子
+function useSkill_before_Swordman(obj, skillIndex, consumeMp, consumeItem, oldSkillMpRate)
+{
+	if(!obj) return false;
+	setUseSkillConsumeMpRate(obj, skillIndex);
+	return true;
+}
+
+//  这是判断技能图标激活条件的函数。如果返回true，则技能图标将被激活。（触发条件state在源代码中处理。）
+function checkCommandEnable_Awakening(obj) {
+
+}
+
+
+// 这是用于创建技能详细发动条件的函数。发动条件的state已经在源代码中实现。在这里指定useskill和setstate即可。
+function checkExecutableSkill_Awakening(obj) {
+		if(!obj) return false;
+	local b_useskill = obj.sq_IsUseSkill(SKILL_AVENGER_AWAKENING);
+	if(b_useskill) {
+		//print("\n sq_getSendState:" + obj.sq_getSendState()); // 여기서 -1이 아니라면 스킬이 씹히게 됩니다..
+		//
+		//if(obj.sq_getSendState() != -1) {
+			//print("\n warning warning skill skip :" + obj.sq_getSendState()); // 여기서 -1이 아니라면 스킬이 씹히게 됩니다..
+			//print("\n warning warning skill skip :" + obj.sq_getSendState()); // 여기서 -1이 아니라면 스킬이 씹히게 됩니다..
+			//print("\n warning warning skill skip :" + obj.sq_getSendState()); // 여기서 -1이 아니라면 스킬이 씹히게 됩니다..
+		//}
+		
+		obj.sq_IntVectClear();
+		obj.sq_IntVectPush(S_AWAKENING_0); // substate세팅
+		obj.sq_addSetStatePacket(STATE_AVENGER_AWAKENING, STATE_PRIORITY_USER, true);
+		return true;
+	}	
+	
+	return false;
+}
+
+
+// 设置状态后首次进入。设置各种资源。
+function onSetState_Awakening(obj, state, datas, isResetTimer) {
+
+}

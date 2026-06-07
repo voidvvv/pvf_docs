@@ -1,0 +1,25 @@
+[attack type]
+
+[ignore defense]
+
+[attack type]
+
+[magic]
+
+[attack type]
+
+[magic]
+
+============damage===============
+[absolute damage]
+	5000
+
+[damage]
+	1000
+
+
+[damage bonus]
+	30
+
+[weapon damage apply]
+	1

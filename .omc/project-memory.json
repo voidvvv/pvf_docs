@@ -44,6 +44,19 @@
       "keyFiles": []
     }
   },
-  "hotPaths": [],
+  "hotPaths": [
+    {
+      "path": "input\\my_inclusion.md",
+      "accessCount": 5,
+      "lastAccessed": 1780835992674,
+      "type": "file"
+    },
+    {
+      "path": "C:\\Users\\PC\\AppData\\Local\\Temp\\claude\\D--pvf\\d1d906f2-70f3-4f43-953e-35ceafb1e750\\tasks\\bu81lsb32.output",
+      "accessCount": 1,
+      "lastAccessed": 1780801768573,
+      "type": "file"
+    }
+  ],
   "userDirectives": []
 }

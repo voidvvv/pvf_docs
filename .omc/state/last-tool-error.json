@@ -1,7 +1,7 @@
 {
-  "tool_name": "Bash",
-  "tool_input_preview": "{\"command\":\"git log --oneline -5 2>&1\",\"description\":\"Show recent commits\"}",
-  "error": "Exit code 128\nfatal: your current branch 'main' does not have any commits yet",
-  "timestamp": "2026-06-07T02:58:00.480Z",
-  "retry_count": 1
+  "tool_name": "Read",
+  "tool_input_preview": "{\"file_path\":\"C:\\\\Users\\\\PC\\\\.claude\\\\projects\\\\D--pvf\\\\3280054b-9705-463c-bc9c-c6fca4da75a3\\\\tool-results\\\\mcp-pvfutility-get_file_list-1780833885528.txt\",\"limit\":100}",
+  "error": "File content (36444 tokens) exceeds maximum allowed tokens (25000). Use offset and limit parameters to read specific portions of the file, or search for specific content instead of reading the whole file.",
+  "timestamp": "2026-06-07T12:04:54.535Z",
+  "retry_count": 2
 }

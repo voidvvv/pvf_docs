@@ -1,0 +1,94 @@
+//将指定nut文件放入我们的nut运行环境中，其中可以来定义变量，里面重写的各种内置函数也会被系统调用执行
+IRDSQRCharacter.pushScriptFiles("Character/Common/common_header.nut");
+
+// 将指定nut作为一个state附加给指定的职业
+// 0 - 8 对应每个职业
+
+ENUM_CHARACTERJOB_SWORDMAN <- 0     /// 검사
+ENUM_CHARACTERJOB_FIGHTER <- 1      /// 격투가
+ENUM_CHARACTERJOB_GUNNER <- 2       /// 거너
+ENUM_CHARACTERJOB_MAGE <- 3			/// 마법사
+ENUM_CHARACTERJOB_PRIEST <- 4		/// 프리스트
+ENUM_CHARACTERJOB_AT_GUNNER <- 5	/// 여성 거너
+ENUM_CHARACTERJOB_THIEF <- 6		/// 도둑
+ENUM_CHARACTERJOB_AT_FIGHTER <- 7	/// 남성 격투가
+ENUM_CHARACTERJOB_AT_MAGE <- 8		/// 남성 마법사
+ENUM_CHARACTERJOB_DEMONIC_SWORDMAN <- 9	/// 마검사
+ENUM_CHARACTERJOB_CREATOR_MAGE <- 10	/// 크리에이터
+ENUM_CHARACTERJOB_MAX <- 11	/// 
+
+IRDSQRCharacter.pushState(职业索引, "nut 文件地址", "state 名称", state id（数字）, 技能索引id);
+
+// 给指定对象切换指定状态
+obj.sq_addSetStatePacket(STATE_AWAKENING_TURN_OFF, STATE_PRIORITY_IGNORE_FORCE, true);
+
+// 定义全局变量
+VECTOR_FLAG_0	<- 0
+
+// 检测当前obj是否有我们指定的ap
+local appendage = obj.GetSquirrelAppendage("ap nut 文件地址");
+
+// 如果没有
+if (!appendage) {
+		//给obj添加ap
+		appendage = CNSquirrelAppendage.sq_AppendAppendage(obj, obj, 技能索引, false,
+		 "ap nut 文件地址", false);
+		// 给obj添加ap（不清楚跟上面的区别）
+		CNSquirrelAppendage.sq_Append(appendage, obj, obj);
+}
+// 附加时间设置
+appendage.sq_SetValidTime(change_time);
+
+// 通过appendage获取我们真正的人物对象
+		local parentObj = appendage.getParent();
+		local sourceObj = appendage.getSource();
+		if(!sourceObj || !parentObj) 
+		{
+		appendage.setValid(false);
+		return;
+		}
+
+local obj = sq_GetCNRDObjectToSQRCharacter(parentObj);
+
+// 通过对象获取一转信息
+local type = sq_getGrowType(obj);
+
+// 获取某obj对象的指定技能的 level 数据
+local change_time = sq_GetLevelData(obj, 技能索引, 所需要的level参数索引, 技能等级);
+
+// 获取当前ap中的自定义的状态
+	local appendage =  CNSquirrelAppendage.sq_IsAppendAppendage(obj,"character/swordman/appendage/Forever_Superarmor.nut");
+
+
+// 定义变量
+local physicalAttack = 999;
+local physicalDefense = 99;
+local magicalAttack = 99;
+local magicalDefense =99;
+local stuck = -4;
+
+
+// 如果当前ap没有我们的这个状态，则我们需要添加
+if (!change_appendage ) {
+	change_appendage = appendage.sq_AddChangeStatus("100000101", obj, obj, 0, 37, false, physicalAttack);
+}
+// 现在我们已经有了这个状态，但为了稳妥起见，还是判断一下
+if (change_appendage ) {
+	// 清空原有数据参数
+	change_appendage.clearParameter();
+// 放入我们期望的参数。
+// 这里也可以用sq_GetLevelData来获取某个技能的数据放入当前的状态中
+change_appendage.addParameter(CHANGE_STATUS_TYPE_PHYSICAL_ATTACK, false, physicalAttack.tofloat());
+change_appendage.addParameter(CHANGE_STATUS_TYPE_PHYSICAL_DEFENSE, false, physicalDefense.tofloat());
+change_appendage.addParameter(CHANGE_STATUS_TYPE_MAGICAL_ATTACK, false, magicalAttack.tofloat());
+change_appendage.addParameter(CHANGE_STATUS_TYPE_MAGICAL_DEFENSE, false, magicalDefense.tofloat());
+change_appendage.addParameter(CHANGE_STATUS_TYPE_STUCK, false, stuck.tofloat());
+
+}
+
+
+// 判断当前是否在塔里
+sq_IsTowerDungeon();
+
+
+local gailv = sq_getRandom(1,100);//定义一个随机数（1-100）最小值1 最大值100

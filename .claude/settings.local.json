@@ -1,7 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "mcp__pvfutility__get_file_content"
+      "mcp__pvfutility__get_file_content",
+      "mcp__pvfutility__get_pvf_root_directory",
+      "mcp__pvfutility__get_file_list",
+      "mcp__pvfutility__get_lst_file_info",
+      "mcp__pvfutility__search_pvf"
     ]
   }
 }
