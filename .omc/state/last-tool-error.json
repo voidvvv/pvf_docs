@@ -1,7 +1,7 @@
 {
   "tool_name": "Read",
-  "tool_input_preview": "{\"file_path\":\"C:\\\\Users\\\\PC\\\\.claude\\\\projects\\\\D--pvf\\\\3280054b-9705-463c-bc9c-c6fca4da75a3\\\\tool-results\\\\mcp-pvfutility-get_file_list-1780833885528.txt\",\"limit\":100}",
-  "error": "File content (36444 tokens) exceeds maximum allowed tokens (25000). Use offset and limit parameters to read specific portions of the file, or search for specific content instead of reading the whole file.",
-  "timestamp": "2026-06-07T12:04:54.535Z",
-  "retry_count": 2
+  "tool_input_preview": "{\"file_path\":\"C:\\\\Users\\\\PC\\\\.claude\\\\projects\\\\D--pvf\\\\d304f261-412f-4eb2-bf1a-888f2d05e906\\\\tool-results\\\\call_e8b5486fa00a45edade542ff.json\",\"offset\":1,\"limit\":50}",
+  "error": "File content (25231 tokens) exceeds maximum allowed tokens (25000). Use offset and limit parameters to read specific portions of the file, or search for specific content instead of reading the whole file.",
+  "timestamp": "2026-06-08T14:41:19.922Z",
+  "retry_count": 1
 }

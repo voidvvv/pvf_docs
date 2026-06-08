@@ -5,7 +5,11 @@
       "mcp__pvfutility__get_pvf_root_directory",
       "mcp__pvfutility__get_file_list",
       "mcp__pvfutility__get_lst_file_info",
-      "mcp__pvfutility__search_pvf"
+      "mcp__pvfutility__search_pvf",
+      "Bash(grep -o '\\\\[body image path\\\\][^\\\\\\\\]*')",
+      "Bash(grep -oP '\\\\[\\(?:waiting|move|sit|damage|down|jump|attack|dash|buff|body image|weapon|etc|back|ghost|throw|rest|getitem|simple|overturn\\)[^\\\\]]*\\\\][^\\\\\\\\]*')",
+      "mcp__pvfutility__get_all_lst_file_list",
+      "mcp__pvfutility__item_code_to_file_info"
     ]
   }
 }

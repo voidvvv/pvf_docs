@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastScanned": 1780800981463,
+  "lastScanned": 1780929495081,
   "projectRoot": "D:\\pvf",
   "techStack": {
     "languages": [],
@@ -29,18 +29,27 @@
   },
   "customNotes": [],
   "directoryMap": {
+    "input": {
+      "path": "input",
+      "purpose": null,
+      "fileCount": 1,
+      "lastAccessed": 1780929495065,
+      "keyFiles": [
+        "my_inclusion.md"
+      ]
+    },
     "pvfDoc": {
       "path": "pvfDoc",
       "purpose": null,
       "fileCount": 0,
-      "lastAccessed": 1780800981445,
+      "lastAccessed": 1780929495066,
       "keyFiles": []
     },
     "skills": {
       "path": "skills",
       "purpose": null,
       "fileCount": 0,
-      "lastAccessed": 1780800981446,
+      "lastAccessed": 1780929495066,
       "keyFiles": []
     }
   },
@@ -55,6 +64,18 @@
       "path": "C:\\Users\\PC\\AppData\\Local\\Temp\\claude\\D--pvf\\d1d906f2-70f3-4f43-953e-35ceafb1e750\\tasks\\bu81lsb32.output",
       "accessCount": 1,
       "lastAccessed": 1780801768573,
+      "type": "file"
+    },
+    {
+      "path": "atswordman_render_analysis.md",
+      "accessCount": 1,
+      "lastAccessed": 1780931063806,
+      "type": "file"
+    },
+    {
+      "path": "gift_box_analysis.md",
+      "accessCount": 1,
+      "lastAccessed": 1780933748620,
       "type": "file"
     }
   ],
