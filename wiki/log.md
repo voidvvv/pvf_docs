@@ -27,3 +27,13 @@ status: current
 - 新增：entities/equ-format（字段表 + rarity 映射 0~5 双文档证据 + 未证实字段清单 + rarity 6/7 实测警示）、entities/equipment-lst（两行记录格式 + 解析要点 + MCP 整读崩溃警示）、concepts/npc-price（[price] 买入 / [value] 卖出÷5 —— 来源：用户实测告知，暂无 pvfDoc 佐证）
 - 更新：entities/pvfutility-mcp（新增"实测语义与坑"：search 行内匹配、regex 模式不可靠、大 LST 崩连接、本地导出替代路径）、concepts/pvf-format（.equ 行链接 equ-format）、sources/src-gift-box（相关链接 npc-price）、overview（知识缺口刷新：.equ 已覆盖，rarity 6/7 待证实）、index（35 页）
 - 备注：粉装扫描结果本体（3,628 件）存 demo/（gitignore），不视为 wiki 知识；方法与字段语义已沉淀
+
+## [2026-11-04] ingest | 粉装售价事故排查（负价溢出 + 导出副本漂移）
+- 新增：debugging/pink-price-incident（int32 溢出负价 -89,934 完整数值链；导出副本≠封包实况导致 2 件遗漏；数据源信任层级与全量审计方法论）
+- 更新：concepts/npc-price（新增 int32 溢出上限节：[value]≤21,474,836，到手≤4,294,967）、entities/pvfutility-mcp（新增直连 HTTP API 批量导入节：ImportFiles 端点、40件/批实测 2604 件 1 秒、审计 3628 件 26 秒；导出副本≠封包警示）、index（36 页）
+- 备注：v1 公式（等级×500,000）因溢出全量废弃，v2 改为固定 [value]=20,000,000（到手 400 万，用户确认）；回滚清单 v2 含封包真实原值（modify_manifest_v2.json）
+
+## [2026-11-04] update | 售价溢出乘数模型修正（第二实测点淘汰 ×100）
+- 更新：concepts/npc-price（乘数订正为 ×200 或 ×1000；全模型安全上限 [value]≤2,147,483/到手≤429,496；附 2,500,000 判别探针；留痕曾误判 ×100 的原因）、debugging/pink-price-incident（新增第二轮 −294,967 推演与"多模型同解须判别性实验"方法论教训）
+- 修正原因：v2 按错误 ×100 模型设 20,000,000，游戏实测 −294,967 与 ×100 预测 +4,000,000 矛盾；反推除数=1000 确认 ×200/×1000
+- 终版：全部 2,609 件固定 [value]=2,000,000（到手 40 万，用户确认）；三次审计 2,609/2,609 全对；回滚表 modify_manifest_v3.json（含封包真实原值）

@@ -54,7 +54,18 @@ status: current
 
 **`get_lst_file_info` 大 LST 会压垮连接**：`equipment/equipment.lst`（11.5 万条）→ `MCP error -32000: Connection closed`，且此后本会话对该服务器的调用被持续误路由。**超大索引走本地方案**。
 
-**本地导出替代路径（用户 2026-11-04 实践）**：用 pvfutility 把 `equipment/` 导出到 `huanjing/`（见 [[huanjing-path-mapping]]），本地批量扫描——文件为 UTF-8，39,707 个非时装 .equ 全量解析无压力；LST 两行记录格式的解析方法见 [[equipment-lst]]。
+**本地导出替代路径（用户 2026-11-04 实践）**：用 pvfutility 把 `equipment/` 导出到 `huanjing/`（见 [[huanjing-path-mapping]]），本地批量扫描——文件为 UTF-8，39,707 个非时装 .equ 全量解析无压力；LST 两行记录格式的解析方法见 [[equipment-lst]]。⚠️ 但**导出副本 ≠ 封包实况**（个别文件可能被本地手改过）——"无需修改"类跳过判断必须对封包实况验证，教训见 [[pink-price-incident]]。
+
+**直连 HTTP API 批量导入（大规模写操作首选，2026-11-04 实测）**：MCP 壳 `mcp_server.py` 只是 `http://localhost:27000` 的代理。直连 REST 可让**文件内容从磁盘直达、零耗 LLM 上下文**：
+
+| 操作 | 端点 |
+|------|------|
+| 批量导入 | `POST /Api/PvfUtiltiy/ImportFiles`，body=`[{FilePath, FileContent}]` JSON 数组 |
+| 单件导入 | `POST /Api/PvfUtiltiy/ImportFile?filePath=…`，body=文本 |
+| 单件读回 | `GET /Api/PvfUtiltiy/GetFileContent?filePath=…&encodingType=UTF8` |
+| 另存封包 | `GET /Api/PvfUtiltiy/SaveAsPvfFile?filePath=<urlencoded>` |
+
+实测 40 件/批 × 2,604 件导入仅 1 秒、0 错误；单件读回全量审计 3,628 件仅 26 秒。断点续传模式：进度写 json，重跑只补未完成批次（demo/_work/direct_import.py 范式）。
 
 ## 相关
 
