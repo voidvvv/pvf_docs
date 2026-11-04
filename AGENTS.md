@@ -174,6 +174,7 @@ DNF 的纯数据 / 配置。代表性文件：
 | [`gift_box_analysis.md`](gift_box_analysis.md) | 礼盒分析 |
 | [`atswordman_render_analysis.md`](atswordman_render_analysis.md) | 女鬼剑渲染分析 |
 | [`input/my_inclusion.md`](input/my_inclusion.md) | nut / PVF / appendage / 被动对象 入门 |
+| [`wiki/WIKI.md`](wiki/WIKI.md) | **跨会话 LLM 知识库**（32 页；先查 wiki 再查原始文档，见 §十一） |
 
 ---
 
@@ -197,3 +198,15 @@ DNF 的纯数据 / 配置。代表性文件：
 - 概率 / 数值改动需复算并标注（基数 1,000,000）。
 - 改完提醒用户「需 `save_as_pvf` 重新打包并替换游戏 PVF 后才生效」。
 - 文档 / 注释统一用中文，与既有文档风格一致。
+
+---
+
+## 十一、Wiki 知识库（跨会话，重要）
+
+本仓库维护一个 **LLM 知识库** `wiki/`（依据 [`llm_wiki.md`](llm_wiki.md) 模式建立，改造方案见 [`wiki改造方案.md`](wiki改造方案.md)）：
+
+- **先查 wiki 再查原始文档**：回答领域问题（文件结构 / 修改方法 / 排错）前，先读 `wiki/index.md` 定位相关页；wiki 已沉淀的知识不要从原始文档重新推导。
+- **接手维护前必读 [`wiki/WIKI.md`](wiki/WIKI.md)**（schema）：规定了页面格式、`[[链接]]` 约定、以及 Ingest / Query / Update / Lint 四个操作协议。
+- **知识入库**：会话中产生的新结论 / 排错经验 / 方法，按协议回填 wiki 页并追加 `wiki/log.md`；与已有页矛盾时并列标注，不要删除旧结论。
+- 目录速览：`concepts/`（概念）`entities/`（实体）`howto/`（流程）`debugging/`（排错）`sources/`（来源摘要）+ 根级 `index / log / overview`。
+- wiki 随 git 入库，可整体复制 / clone 给其他 AI 工具使用（自包含，不依赖本项目）。
