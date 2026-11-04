@@ -44,6 +44,18 @@ status: current
 
 实例化流程页：[[modify-drop-rate]]（数据表）、[[modify-nut-script]]（脚本）、[[analyze-skill]]（技能）。
 
+## 实测语义与坑（2026-11-04 会话）
+
+**`search_pvf`**（经 ring 目录 2,147 文件对照验证）：
+
+- `search_folder` 生效且精确限定；plain 模式 = **内容子串匹配**（非文件名）；每个 .equ 均含 `[rarity]`（2147/2147 命中）；
+- **只在行内匹配**：跨行字面量（`[rarity]\r\n\t6` 真实控制字符）0 命中——不能用 plain 搜索按"下一行的数值"筛文件；
+- **regex 模式不可靠**：中文字符串可命中，但 `\[rarity\]`、`min…\]\r\n\t90` 等带转义/跨行的模式全部 0 命中且无报错——**禁止用 regex 模式做结论性筛选**。
+
+**`get_lst_file_info` 大 LST 会压垮连接**：`equipment/equipment.lst`（11.5 万条）→ `MCP error -32000: Connection closed`，且此后本会话对该服务器的调用被持续误路由。**超大索引走本地方案**。
+
+**本地导出替代路径（用户 2026-11-04 实践）**：用 pvfutility 把 `equipment/` 导出到 `huanjing/`（见 [[huanjing-path-mapping]]），本地批量扫描——文件为 UTF-8，39,707 个非时装 .equ 全量解析无压力；LST 两行记录格式的解析方法见 [[equipment-lst]]。
+
 ## 相关
 
 - 运行时 hook 的互补工具：[[frida-js]]

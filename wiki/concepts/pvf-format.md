@@ -22,7 +22,7 @@ status: current
 | `.apd` | appendage 定义 | `appendage/` | 声明式状态效果 → [[appendage]] |
 | `.obj` | 被动物体定义 | `passiveobject/` | 视觉与碰撞属性，配合同名 `.nut` → [[passive-object]] |
 | `.stk` | 可堆叠道具 | `stackable/` | 消耗品 / 礼盒 / 纹章等 → [[src-gift-box]]、[[crest-items]] |
-| `.equ` | 装备定义 | `equipment/` | 装备属性 |
+| `.equ` | 装备定义 | `equipment/` | 装备属性（含 rarity/等级/价格字段）→ [[equ-format]] |
 | `.lst` | 索引表 | 各目录 | 数字 ID → 文件路径 / 名称 映射 → 下文 |
 | `.chr` / `.ani` / `.img` / `.lay` | 角色 / 动画 / 图片 / 层级 | `character/`、`equipment/` | 渲染链 → [[src-atswordman-render]] |
 

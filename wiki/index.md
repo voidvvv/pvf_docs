@@ -10,7 +10,7 @@ status: current
 
 # 知识库目录（index）
 
-> 共 32 页（4 根级 + 8 概念 + 8 实体 + 4 流程 + 2 排错 + 6 来源）· 最后更新 2026-11-04
+> 共 35 页（4 根级 + 9 概念 + 10 实体 + 4 流程 + 2 排错 + 6 来源）· 最后更新 2026-11-04
 > 维护协议见 [[WIKI]] · 全局知识地图见 [[overview]] · 操作历史见 [[log]]
 
 ## 根级（meta）
@@ -30,11 +30,14 @@ status: current
 - [[load-state]] — load_state 注册机制：pushScriptFiles / pushState / pushPassiveObj 与加载顺序
 - [[appendage]] — Appendage 两种定义方式、CNSquirrelAppendage API 全表、钩子、陷阱
 - [[passive-object]] — 被动物体三件套（.obj + po_*.nut + lst）、技能→po 数据传递
+- [[npc-price]] — [price]=NPC买入价 / [value]=卖出基础价，实际卖出=value÷5（用户实测告知）
 
 ## entities/（实体）
 
 - [[worlddrop-etc]] — etc/worlddrop.etc 世界掉落：等级块结构、-1 分隔、独立判定、修改要点
 - [[itemdropinfo-family]] — 掉率三件套（hell/monseter/extra）：段落详解、实测爆率、倍率系统
+- [[equ-format]] — .equ 装备定义格式：字段表、rarity 映射（3=粉，文档双源）、未证实字段清单
+- [[equipment-lst]] — equipment.lst 两行记录格式（代码行+反引号路径行）、勿用 MCP 整读
 - [[quickbar-equipment-system]] — 快捷栏装备三函数协作机制（itemIndex 共享向量）
 - [[crest-items]] — 勇者纹章道具族 100000101~110 对照
 - [[pvfutility-mcp]] — 工具：pvfutility MCP 接口速查与标准修改流程
