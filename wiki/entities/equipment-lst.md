@@ -4,7 +4,7 @@ category: entity
 tags: [lst, equipment, 物品代码]
 sources: ["AGENTS.md"]
 created: 2026-11-04
-updated: 2026-11-04
+updated: 2026-11-05
 status: current
 ---
 
@@ -35,6 +35,10 @@ status: current
 ## ⚠️ 勿用 MCP 整读此文件
 
 `get_lst_file_info("equipment/equipment.lst")` 因 11.5 万条超载导致 **MCP 连接中断**（Connection closed，2026-11-04 实测）。替代方案：用 pvfutility 把 `equipment/` 导出到本地 `huanjing/`（见 [[huanjing-path-mapping]]）后本地解析，详见 [[pvfutility-mcp]] 实测语义节。
+
+## ⚠️ stackable.lst 是单行格式，与本文件不同（2026-11-05 实测）
+
+`stackable/stackable.lst` 封包实况为**单行记录** `代码\t\`相对路径\``（equipment.lst 的两行解析器**不适用**）；且其本地导出副本又呈两行格式——详见 [[pvfutility-mcp]] 的格式警示节。**改任何 lst 前先 GET 封包实况确认格式**。
 
 ## 用途
 

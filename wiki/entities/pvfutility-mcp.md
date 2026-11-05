@@ -4,7 +4,7 @@ category: entity
 tags: [工具, mcp, pvf]
 sources: ["AGENTS.md"]
 created: 2026-11-04
-updated: 2026-11-04
+updated: 2026-11-05
 status: current
 ---
 
@@ -65,7 +65,19 @@ status: current
 | 单件读回 | `GET /Api/PvfUtiltiy/GetFileContent?filePath=…&encodingType=UTF8` |
 | 另存封包 | `GET /Api/PvfUtiltiy/SaveAsPvfFile?filePath=<urlencoded>` |
 
-实测 40 件/批 × 2,604 件导入仅 1 秒、0 错误；单件读回全量审计 3,628 件仅 26 秒。断点续传模式：进度写 json，重跑只补未完成批次（demo/_work/direct_import.py 范式）。
+实测 40 件/批 × 2,604 件导入仅 1 秒、0 错误；单件读回全量审计 3,628 件仅 26 秒。断点续传模式：进度写 json，重跑只补未完成批次（demo/_work/direct_import.py 范式）。2026-11-05 回购落地复用此范式：3,347 件 12 秒导入、3,345 件 32 秒全量审计（`demo/_work/import_rebuy.py` / `audit_rebuy.py`）。
+
+## ⚠️ save_as_pvf 覆盖当前载入文件 = 写成 Script(1).pvf（2026-11-05 实测）
+
+- 目标路径 = pvfUtility **正在载入**的 PVF 时，工具**不会覆盖原文件**（原文件被进程锁定，`mv`/`rm` 均报 Device or resource busy），而是把重打包结果写到同目录 **`Script(1).pvf`**（自动加序号），且 MCP `save_as_pvf` 返回 `IsError:false`（无任何提示）；
+- 直连 `GET /Api/PvfUtiltiy/SaveAsPvfFile` 同目标路径时返回 success 但**未观察到任何产物**（3 秒即回，626MB 封包不可能）——落盘确认以 `ls -la` 为准，勿信返回值；
+- **正确收尾**：保存前先备份原 PVF；保存后检查目录出现 `Script(1).pvf`（大小应 ≈ 原文件 + 新增内容量），**关闭 pvfUtility** 再把 `(1)` 文件改名替换原 `Script.pvf`（工具开着换不了）。
+
+## ⚠️ 封包 lst 与本地导出副本格式不同（2026-11-05 实测）
+
+`stackable/stackable.lst` **封包实况是单行记录**：`代码\t\`相对路径\``（如 `3340\t\`material/gold_coin.stk\``，约 21,790 条），而**本地导出副本是两行记录**（代码行 + 反引号路径行）——同一文件两种格式，是"导出副本 ≠ 封包实况"的又一实例（首例见 [[pink-price-incident]]）。**以封包 GET 内容为追加/解析基底**，勿把本地副本格式当封包格式；追加记录按单行 `代码\t\`路径\` + CRLF`。equipment.lst（两行格式）与 stackable.lst（单行格式）**格式不同，解析器不可通用**，见 [[equipment-lst]]。
+
+**⚠️ lst 路径相对所属目录，不带目录前缀（2026-11-05 实错修正）**：stackable.lst 条目路径相对 `stackable/`（写 `pink_rebuy/xxx.stk`，**不是** `stackable/pink_rebuy/xxx.stk`）——与 equipment.lst 同规则（见 [[equipment-lst]] 解析要点）。回购落地首版误带前缀 3,345 条（用户发现），已按封包实况批量修正并复核。**审计必须覆盖路径格式**，不能只核对代码存在性。
 
 ## 相关
 

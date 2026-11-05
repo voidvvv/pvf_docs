@@ -4,13 +4,13 @@ category: meta
 tags: [目录, 导航]
 sources: []
 created: 2026-11-04
-updated: 2026-11-04
+updated: 2026-11-06
 status: current
 ---
 
 # 知识库目录（index）
 
-> 共 38 页（4 根级 + 9 概念 + 12 实体 + 4 流程 + 3 排错 + 6 来源）· 最后更新 2026-11-05
+> 共 49 页（4 根级 + 10 概念 + 19 实体 + 7 流程 + 3 排错 + 6 来源）· 最后更新 2026-11-06
 > 维护协议见 [[WIKI]] · 全局知识地图见 [[overview]] · 操作历史见 [[log]]
 
 ## 根级（meta）
@@ -31,15 +31,23 @@ status: current
 - [[appendage]] — Appendage 两种定义方式、CNSquirrelAppendage API 全表、钩子、陷阱
 - [[passive-object]] — 被动物体三件套（.obj + po_*.nut + lst）、技能→po 数据传递
 - [[npc-price]] — [price]=NPC买入价 / [value]=卖出基础价÷5；溢出上限 [value]≤10,737,418（乘数×200 已三实测点判别）
+- [[dungeon-chain]] — 地下城→房间→怪物三层引用链、.map [monster] 行 10 字段解码、lst 格式家族（两行 ID 在前 / stackable 单行）、全系统仅两处真随机
 
 ## entities/（实体）
 
 - [[worlddrop-etc]] — etc/worlddrop.etc 世界掉落：等级块结构、-1 分隔、独立判定、修改要点
 - [[itemdropinfo-family]] — 掉率三件套（hell/monseter/extra）：段落详解、实测爆率、倍率系统
 - [[equ-format]] — .equ 装备定义格式：字段表、rarity 映射（3=粉，文档双源）、未证实字段清单
-- [[equipment-lst]] — equipment.lst 两行记录格式（代码行+反引号路径行）、勿用 MCP 整读
-- [[npc-shop]] — NPC 商店 itemshop/.shp：sell item 编码（-1空位/-2分页/页签对应）、两套编号辨析、价格取物品[price]
-- [[design-recipe]] — 设计图（recipe 类 .stk）：int data 配方结构、三种工艺、掉落控制；含回购型（装备→3340 金币变现）
+- [[equipment-lst]] — equipment.lst 两行记录格式（代码行+反引号路径行）、勿用 MCP 整读；⚠️ stackable.lst 封包实况为单行格式，改 lst 先 GET 实况
+- [[npc-shop]] — NPC 商店 itemshop/.shp：sell item 编码（-1空位/-2分页/页签对应）、两套编号辨析、价格取物品[price]；单页可载 900+ 件、赛丽亚已扩 13 页签（含 8 回购页签）
+- [[design-recipe]] — 设计图（recipe 类 .stk）：int data 配方结构（M≥2 无先例勿用）、三种工艺、掉落控制；回购系统已全量落地（3,344 张回购图+回购金币 796000000，等级×10 万变现）
+- [[monster-dir]] — monster/ 目录与 .mob：字段表、新旧双体系、数值三层模型（基础表×倍率×难度表）、lst 注册与孤儿
+- [[monster-act]] — .act 行为语言：MOTION/TRIGGER/BEHAVIOR 骨架、WHICH 对象筛选、DIM 变量与触发器开关=阶段机、[ME] n 全文件 0 基寻址
+- [[monster-behavior-commands]] — BEHAVIOR 指令字典（位移/判定/召唤/状态/演出五类速查+用例配方）
+- [[monster-ai]] — [ai pattern] 四件套职责、.ai 条件树语法、[attack kind] 12 列解码、驱动模型
+- [[monster-atk]] — .atk 命中判定字段表与三表对齐规则
+- [[dungeon-dir]] — .dgn 字段表、[greed] 连通图字母表、多套 [maze info]、塔类/疲劳/深渊开关、etc 桥表、sqr/map 钩子
+- [[map-dir]] — .map 房间字段、怪物摆放、.til 碰撞网格、深渊房两形态、[dummy] 假 boss 房
 - [[quickbar-equipment-system]] — 快捷栏装备三函数协作机制（itemIndex 共享向量）
 - [[crest-items]] — 勇者纹章道具族 100000101~110 对照
 - [[pvfutility-mcp]] — 工具：pvfutility MCP 接口速查与标准修改流程
@@ -53,6 +61,9 @@ status: current
 - [[add-quickbar-equipment]] — 新增一件快捷栏装备（纹章）四步流程与代码模板
 - [[modify-nut-script]] — 修改/新增 .nut 脚本通用流程与检查单
 - [[analyze-skill]] — 用 dnf-skill-analyzer 定位/读取/解析 .skl 三步法
+- [[add-monster]] — 新增一只怪物：选模板→.mob/三件套/AI→注册 lst→摆进房间→导入打包 + 检查单
+- [[modify-monster]] — **改怪物机制总入口：需求→配方速查表**（数值/行为/打感三类，说出机制即查即改）
+- [[modify-dungeon-map]] — 改地下城与房间：排怪/加房/等级/免疲劳/深渊/塔层 需求→落点
 
 ## debugging/（排错）
 

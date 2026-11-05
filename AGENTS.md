@@ -210,12 +210,12 @@ DNF 的纯数据 / 配置。代表性文件：
 - **知识入库**：会话中产生的新结论 / 排错经验 / 方法，按协议回填 wiki 页并追加 `wiki/log.md`；与已有页矛盾时并列标注，不要删除旧结论。
 - 目录速览：`concepts/`（概念）`entities/`（实体）`howto/`（流程）`debugging/`（排错）`sources/`（来源摘要）+ 根级 `index / log / overview`。
 
-### 目录详情（38 页 · 2026-11-05）
+### 目录详情（49 页 · 2026-11-06）
 
 - **根级（4）**：`WIKI.md`（Schema：页面格式 + Ingest/Query/Update/Lint 协议）· `index.md`（全页目录）· `log.md`（append-only 操作日志）· `overview.md`（知识地图与知识缺口）
-- **concepts/（9）**：`huanjing-path-mapping` 目录映射 · `pvf-format` PVF 文件类型体系与 LST 机制 · `etc-table-format` .etc 语法 · `probability-basis` 概率基数 1,000,000 与稀有度算法 · `nut-scripting` nut/Squirrel 体系 · `load-state` 脚本注册机制 · `appendage` 状态效果 API · `passive-object` 被动物体三件套 · `npc-price` NPC 买卖价（[price] 买入 / [value] 卖出÷5；溢出上限 [value]≤10,737,418，乘数×200 已判别）
-- **entities/（12）**：`worlddrop-etc` 世界掉落 · `itemdropinfo-family` 掉率三件套 · `equ-format` .equ 格式与 rarity 映射（3=粉）· `equipment-lst` 装备索引（两行记录）· `npc-shop` NPC 商店 itemshop/.shp（-1空位/-2分页/页签规则）· `design-recipe` 设计图 recipe 类 .stk（int data 配方结构；回购型=装备→3340 变现）· `quickbar-equipment-system` 快捷栏装备三函数机制 · `crest-items` 勇者纹章族 · `pvfutility-mcp` MCP 工具（含实测语义与坑）· `frida-js` 运行时 hook · `pvfdoc-library` 教程库导航 · `input-raw-references` 参考资料索引
-- **howto/（4）**：`modify-drop-rate` 改掉率 · `add-quickbar-equipment` 加纹章 · `modify-nut-script` 改脚本 · `analyze-skill` 析技能
+- **concepts/（10）**：`huanjing-path-mapping` 目录映射 · `pvf-format` PVF 文件类型体系与 LST 机制 · `etc-table-format` .etc 语法 · `probability-basis` 概率基数 1,000,000 与稀有度算法 · `nut-scripting` nut/Squirrel 体系 · `load-state` 脚本注册机制 · `appendage` 状态效果 API · `passive-object` 被动物体三件套 · `npc-price` NPC 买卖价（[price] 买入 / [value] 卖出÷5；溢出上限 [value]≤10,737,418，乘数×200 已判别）· `dungeon-chain` 地下城→房间→怪物三层引用链（[monster] 行解码 / lst 格式家族 / 仅两处真随机）
+- **entities/（19）**：`worlddrop-etc` 世界掉落 · `itemdropinfo-family` 掉率三件套 · `equ-format` .equ 格式与 rarity 映射（3=粉）· `equipment-lst` 装备索引（两行记录；⚠️ stackable.lst 封包实况为单行格式）· `npc-shop` NPC 商店 itemshop/.shp（-1空位/-2分页/页签规则；单页可载 900+ 件）· `design-recipe` 设计图 recipe 类 .stk（int data 配方结构；回购系统已落地：3,344 张回购图+回购金币 796000000，60+粉装等级×10 万变现）· `quickbar-equipment-system` 快捷栏装备三函数机制 · `crest-items` 勇者纹章族 · `pvfutility-mcp` MCP 工具（含实测语义与坑）· `frida-js` 运行时 hook · `pvfdoc-library` 教程库导航 · `input-raw-references` 参考资料索引 · `monster-dir`/`monster-act`/`monster-behavior-commands`/`monster-ai`/`monster-atk` 怪物五件套（mob 字段/act 行为语言/指令字典/ai 决策树/atk 判定） · `dungeon-dir` .dgn 布局与难度 · `map-dir` .map 房间与怪物摆放
+- **howto/（7）**：`modify-drop-rate` 改掉率 · `add-quickbar-equipment` 加纹章 · `modify-nut-script` 改脚本 · `analyze-skill` 析技能 · `add-monster` 加怪全流程 · `modify-monster` 改怪机制配方速查（说机制→查配方） · `modify-dungeon-map` 改副本房间
 - **debugging/（3）**：`procappend-priest-bug` 静默异常阻断案例 · `naming-traps` 原版拼写红线 · `pink-price-incident` 售价溢出负价（int32 数值链）+ 导出副本≠封包实况
 - **sources/（6）**：`src-drop-rate-doc` · `src-agents-md` · `src-quickbar-guide` · `src-my-inclusion` · `src-gift-box` · `src-atswordman-render`（每份原始文档一页摘要，指回原文）
 - wiki 随 git 入库，可整体复制 / clone 给其他 AI 工具使用（自包含，不依赖本项目）。

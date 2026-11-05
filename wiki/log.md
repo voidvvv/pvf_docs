@@ -52,3 +52,21 @@ status: current
 - 新增：entities/design-recipe（recipe 类 .stk：文件模板、[int data] 配方结构【N×材料 + M×产出，实测2件程序化验证】、三种工艺类型、最低制作等级部位表、掉落控制追加段；回购类型设计图一节【装备→3340 班图金币变现，用户告知，含制作模板与"封包内无现成实例"实况】；10424 对 [price] 的"回收价格"注释与 npc-price 记矛盾待验证）
 - 更新：index（38 页）、AGENTS.md 目录详情同步
 - 备注：草案两轮呈报用户（首版 + 回购节增补）后确认入库；tags 含"回购"保证回购物品问题可检索命中
+
+## [2026-11-05] update | 60+粉装回购系统全量落地（设计图方案，用户三项确认后实施）
+- 实施封包：3,344 张「<装备名>回购图」（796000001~796003344）+「回购金币」796000000（[value]=500000→卖店恰10万），单图产出=回购金币×等级（等级×10万精确变现；3340 面值50万对68/71/86级不整除故自建10万币）；stackable.lst +796段3,345条（写入前验空）；赛丽亚 equipmentshop7.shp 新增8等级页签（回购60~回购90+，68→65签、71→70签，最大页765件）；284件未注册LST排除（demo/rebuy_excluded_no_code.csv）
+- 更新：entities/design-recipe（回购节改"已全量落地"+新增结构红线：M≥2全封包零先例勿用、装备代码作材料34件先例、镜像2651326模板去[minimum itemmaking level]）、entities/npc-shop（新增"页容量与大型商店实例"：辛达922件/页实证、赛丽亚13页签、booster回收奖励=第二实现路径）、entities/pvfutility-mcp（新增两坑：save_as_pvf覆盖载入文件→写成Script(1).pvf且返回success无提示、直连端点同路径返回success无产物；封包stackable.lst单行格式vs本地导出两行）、entities/equipment-lst（stackable.lst单行格式对照警示）、index（38页描述刷新）、AGENTS.md §十一同步
+- 审计：3,347件直连导入12秒0错误；封包侧3,345件逐件回读0异常、lst 25,135条无缺失无重复、shp 13页=13签全7列且8页物品集合逐一吻合（PASS）；重打包产物 Script(1).pvf（627,093,201B，+1.2MB）待关闭 pvfUtility 后与 Script.pvf 交换（原文件被进程锁定）；改前备份 Script.backup-20261105-回购前.pvf
+- 备注：游戏内验证待用户进行（领取回购图→持装备制作→回购金币卖店）；若 weaving 制作界面有异常，备选 booster 路径（6900005xx 同款）已在 npc-shop 记录
+
+## [2026-11-05] update | 修正 stackable.lst 路径前缀错误（用户发现，实错归档）
+- 错误：回购落地首版 796 段 3,345 条 lst 条目误写 `stackable/pink_rebuy/xxx.stk`（带前缀）——lst 路径应相对 stackable/ 写 `pink_rebuy/xxx.stk`；根因是生成脚本复用了封包完整路径，且审计只核对代码存在性未核对路径格式
+- 修正：以封包实况为基底批量替换（fix_lst_prefix.py，锚点条目 0/3340/690117439 未动），导入后复核：无带前缀残留、pink_rebuy/796000000.stk 在册、总记录 25,135 不变；.stk 文件本体位于 stackable/pink_rebuy/ 无需改动（仅 lst 条目路径错）
+- 更新：entities/pvfutility-mcp（lst 格式节补"路径不带目录前缀"红线 + 审计须覆盖路径格式）、demo/_work/build_all.py（重跑安全：lst 条目改用相对路径）
+- 备注：后续打包由用户自行执行（pvfUtility 内存封包已含修正后内容）；19:26 产出的 Script(1).pvf 含错误 lst 版本，属废版待清理；19:37 的 Script.pvf 为未写完的部分文件，将被用户自行另存覆盖
+
+## [2026-11-06] ingest | 怪物/地下城/房间体系全量入库（三 sub-agent 探索 + fuhrman 考核验证）
+- 新增 11 页：concepts/dungeon-chain（三层引用链 + [monster] 行 10 字段解码 + lst 格式家族裁决：两行 lst 均 ID 在前、stackable/passiveobject 单行 + 仅两处真随机）；entities/monster-dir（.mob 字段/新旧双体系/数值三层/341 孤儿/悬空引用）、monster-act（TRIGGER/BEHAVIOR 语法骨架、WHICH 筛选、DIM 变量、触发器开关=阶段机、[ME] 全文件 0 基寻址坑）、monster-behavior-commands（约 180 指令浓缩字典+用例配方）、monster-ai（四件套职责/.ai 语法/[attack kind] 列解码/驱动模型）、monster-atk（判定字段表+三表对齐）、dungeon-dir（.dgn 字段/greed 字母表/多套 maze info/塔/疲劳无表/etc 桥/sqr 钩子）、map-dir（.map 字段/怪物摆放/.til 碰撞网格/深渊两形态/[dummy]）；howto/add-monster、modify-monster（需求→配方速查：数值/行为/打感三类，兑现"说机制即可实现"）、modify-dungeon-map
+- 更新：naming-traps（+4 条 typo 红线 + 大小写双标/编码四重奏/.ai 误判二进制/后值覆盖/sit=起身）、overview（知识地图+主线 6+缺口刷新：怪物地图领域已覆盖）、index（49 页）、AGENTS.md §十一同步
+- 方法：3 个并行 sub-agent（act 语法普查 25,352 文件 / mob 状态机+AI / boss 实战解剖）+ fuhrman 亲自五层解读考核通过（demo/fuhrman_机制考核报告.md，gitignore）
+- 备注：未解点已在页内标注——[attack kind] 列 2-4/6-12、[monster] 第 7/8 位、magtonum/fire 等 .obj 内部脚本（passiveobject 未导出本地，查封包走 MCP）
