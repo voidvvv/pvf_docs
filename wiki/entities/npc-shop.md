@@ -1,0 +1,94 @@
+---
+title: NPC 商店（itemshop/.shp）
+category: entity
+tags: [npc, 商店, shp, itemshop]
+sources: ["pvfDoc/pvfDoc/【06】NPC-商店/商城/11391_最详细的NPC商店目录.json",
+         "pvfDoc/pvfDoc/【06】NPC-商店/商城/11877_如何将物品上架NPC商店.json",
+         "pvfDoc/pvfDoc/【06】NPC-商店/商城/11377_如何自定义NPC商店商品.json",
+         "pvfDoc/pvfDoc/【06】NPC-商店/商城/11803_每日商店教程.json",
+         "pvfDoc/pvfDoc/【06】NPC-商店/商城/11585_人偶商店格子调整最大值.json",
+         "pvfDoc/pvfDoc/【06】NPC-商店/商城/11902_辛达商店5-85紫粉武器.json"]
+created: 2026-11-05
+updated: 2026-11-05
+status: current
+---
+
+# NPC 商店（itemshop/.shp）
+
+NPC 商店由 `itemshop/` 目录下的 **`.shp` 文件**定义，经 `itemshop/itemshop.lst` 注册（实测约 170 个商店：普通 NPC 商店、分解修理机、加百列副本商店、活动商店等）。商店与 NPC 的完整对照表见教程《11391_最详细的NPC商店目录》（NPC 名 ↔ .shp ↔ .npc 三列对照，如 赛丽亚=equipmentshop7.shp+Seria.npc）。
+
+## .shp 文件格式（实测 equipmentshop7.shp）
+
+```
+#PVF_File
+
+[NPC]
+	2                          ← NPC 索引（见下文"两套编号"，勿与 lst 注册码混淆）
+[type]
+	`[etc shop]`               ← 商店类型（另有 `[weapon shop]` 等）
+[message]
+	`我叫赛丽亚，您需要我帮忙吗?`  ← 打开商店时的问候语
+[sell item]
+	3262	-1	-1	-1	-1	-1	-1   ← 售卖物品区：物品代码，7 个一行
+	10005007	10005027	…	-1
+	-2                         ← 分页符：换到下一页
+	10000080	4399	1183	-1	-1	-1	-1
+[/sell item]
+
+[tab name]
+	`商店`                      ← 每页一个页签名，顺序对应 -2 分出的页
+	`黑钻`
+	`攻城`
+[/tab name]
+```
+
+要点：
+
+- **Tab 分隔、7 列一行**（与游戏内商店每行 7 格一致）；物品代码须在 stackable/equipment 等 LST 中真实存在；
+- **`-1` = 空位**：占格不显示物品，用于隔开/对齐（如每 6 件后放 -1 凑成 7 列）；
+- **`-2` = 分页符**：单独一行，其后内容进入新页；
+- **页签名必须与页数一一对应**（`[tab name]` 行数 = 页数），缺失或不匹配 → 游戏内打开商店**直接崩溃**（教程 11877 明确警告）。
+
+## 两套编号辨析（易混）
+
+| 编号 | 位置 | 含义 | 例 |
+|------|------|------|----|
+| `[NPC]` 段的值 | .shp 内 | NPC 功能索引（11377 教程称"NPC物品栏代码"，≈equipmentshopN 的 N 序号体系） | 赛丽亚=2、辛达=4、林纳斯=1 |
+| `itemshop.lst` 的 ItemCode | lst 注册码 | 商店注册 ID（换商店/每日商店参数引用它） | equipmentshop7.shp=15、oneadayitemshop.shp=49 |
+
+两套数字**互不相干**（赛丽亚：[NPC]=2 但 lst 码=15），修改时不可串用。
+
+## 价格机制
+
+`.shp` 本身**不含价格字段**——商店售价取**物品文件自己的 `[price]`**（买入价语义见 [[npc-price]]；该页同时记载卖出 [value]÷5 与 int32 溢出上限）。改商店里某物品的售价 = 改该物品 `.equ/.stk` 的 `[price]`，而非改 .shp。
+
+## 常用操作
+
+- **上架**：在目标页的行内把某个 `-1` 换成物品代码（保持 7 列对齐）；
+- **下架**：物品代码换回 `-1`；
+- **加页**：行尾加单独一行 `-2`，新页内容随后，并在 `[tab name]` 末尾**同步追加**页签名；
+- **换 NPC 某页卖什么**：直接编辑对应页的物品代码行。
+
+## 变体商店
+
+| 类型 | 要点 | 证据 |
+|------|------|------|
+| 每日商店（one a day） | NPC 参数 `[one a day shop] <lst码>` 开启；`[one a day start time]`（年 月 日 时）起轮换；`[one a day item]` 每组=一天的货，卖完自动回第一组 | 教程 11803 |
+| 副本商店 | 加百列（1002~1004）/德利拉（1000）/贞子（1009）等，lst 码 1000+ 段 | 实测 itemshop.lst |
+| 人偶商店 | 格子数不在 .shp，在 `character/expertjob/doll_controller.exj` 的 `[shop doll info]`（等级档→格数对；显示上限 7 格） | 教程 11585 |
+
+## 相关系统辨析
+
+- **商城（D 点/DB 购买）是另一套系统**，不在 itemshop/（见【06】目录"商城解读"系列教程）；
+- **分解商店（分解产物）** 由 `etc/disjiont*` 文件控制，也不是 .shp（教程 11372）。
+
+## 证据
+
+- 教程：11391（NPC↔shp↔npc 对照总表）、11877（上架/分页/页签规则）、11377（[NPC] 索引表）、11803（每日商店）、11585（人偶格子）、11902（辛达商店完整实例，含 [NPC] 4 + [weapon shop]）
+- 封包实测（2026-11-05）：`itemshop/equipmentshop7.shp` 全文、`itemshop/itemshop.lst`（~170 条）
+- 注：【10】目录的 10370（购买方式与价格）正文仅一行转载链接，无实质内容，未采用
+
+## 相关
+
+- 价格规则与溢出上限：[[npc-price]]　·　物品代码索引：[[equipment-lst]]
+- 教程库导航：[[pvfdoc-library]]　·　修改工具：[[pvfutility-mcp]]
