@@ -30,7 +30,7 @@ status: current
 - [[load-state]] — load_state 注册机制：pushScriptFiles / pushState / pushPassiveObj 与加载顺序
 - [[appendage]] — Appendage 两种定义方式、CNSquirrelAppendage API 全表、钩子、陷阱
 - [[passive-object]] — 被动物体三件套（.obj + po_*.nut + lst）、技能→po 数据传递
-- [[npc-price]] — [price]=NPC买入价 / [value]=卖出基础价，实际卖出=value÷5（用户实测告知）
+- [[npc-price]] — [price]=NPC买入价 / [value]=卖出基础价÷5；溢出上限 [value]≤10,737,418（乘数×200 已三实测点判别）
 
 ## entities/（实体）
 

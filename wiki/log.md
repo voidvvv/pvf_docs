@@ -42,3 +42,8 @@ status: current
 - 新增：entities/npc-shop（.shp 格式实测解析：[NPC]/[type]/[message]/[sell item]/[tab name]；-1 空位、-2 分页、页签数=页数否则崩溃；[NPC] 索引与 itemshop.lst 注册码两套编号辨析；价格取物品 [price]；每日/副本/人偶变体商店；商城与分解商店系统辨析）
 - 更新：index（37 页）
 - 备注：草案先经用户确认（2026-11-05）再入库，符合"用户确认门槛"流程；来源=pvfDoc【06】6 篇教程 + 封包实测 equipmentshop7.shp 与 itemshop.lst（~170 商店）
+
+## [2026-11-05] update | 乘数判别完成——班图金币探针（用户实测）
+- 更新：concepts/npc-price（溢出节改判"完成"：乘数 ×200÷1000 三实测点确认；安全上限提升 [value]≤10,737,418 / 到手≤2,147,483；新增班图族金币参照物：price 500,000 / value 2,500,000 / 卖价恰等于买入价）、debugging/pink-price-incident（后续二：×1000 淘汰，未决问题闭环；现有 2,000,000 固定价仍在安全域无需返工）、index 与 AGENTS.md 的 npc-price 行同步
+- 判别依据：用户实测班图金币（3340）游戏内卖价 500,000 = 2.5M÷5 无溢出；×1000 模型预测 −358,993 被淘汰
+- 待办：entities/design-recipe（设计图，含回购型节）草案已呈用户，待确认后入库

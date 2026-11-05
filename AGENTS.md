@@ -213,7 +213,7 @@ DNF 的纯数据 / 配置。代表性文件：
 ### 目录详情（37 页 · 2026-11-05）
 
 - **根级（4）**：`WIKI.md`（Schema：页面格式 + Ingest/Query/Update/Lint 协议）· `index.md`（全页目录）· `log.md`（append-only 操作日志）· `overview.md`（知识地图与知识缺口）
-- **concepts/（9）**：`huanjing-path-mapping` 目录映射 · `pvf-format` PVF 文件类型体系与 LST 机制 · `etc-table-format` .etc 语法 · `probability-basis` 概率基数 1,000,000 与稀有度算法 · `nut-scripting` nut/Squirrel 体系 · `load-state` 脚本注册机制 · `appendage` 状态效果 API · `passive-object` 被动物体三件套 · `npc-price` NPC 买卖价（[price] 买入 / [value] 卖出÷5）
+- **concepts/（9）**：`huanjing-path-mapping` 目录映射 · `pvf-format` PVF 文件类型体系与 LST 机制 · `etc-table-format` .etc 语法 · `probability-basis` 概率基数 1,000,000 与稀有度算法 · `nut-scripting` nut/Squirrel 体系 · `load-state` 脚本注册机制 · `appendage` 状态效果 API · `passive-object` 被动物体三件套 · `npc-price` NPC 买卖价（[price] 买入 / [value] 卖出÷5；溢出上限 [value]≤10,737,418，乘数×200 已判别）
 - **entities/（11）**：`worlddrop-etc` 世界掉落 · `itemdropinfo-family` 掉率三件套 · `equ-format` .equ 格式与 rarity 映射（3=粉）· `equipment-lst` 装备索引（两行记录）· `npc-shop` NPC 商店 itemshop/.shp（-1空位/-2分页/页签规则）· `quickbar-equipment-system` 快捷栏装备三函数机制 · `crest-items` 勇者纹章族 · `pvfutility-mcp` MCP 工具（含实测语义与坑）· `frida-js` 运行时 hook · `pvfdoc-library` 教程库导航 · `input-raw-references` 参考资料索引
 - **howto/（4）**：`modify-drop-rate` 改掉率 · `add-quickbar-equipment` 加纹章 · `modify-nut-script` 改脚本 · `analyze-skill` 析技能
 - **debugging/（3）**：`procappend-priest-bug` 静默异常阻断案例 · `naming-traps` 原版拼写红线 · `pink-price-incident` 售价溢出负价（int32 数值链）+ 导出副本≠封包实况
